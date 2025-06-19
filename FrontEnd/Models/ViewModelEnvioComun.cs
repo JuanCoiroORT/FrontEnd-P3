@@ -1,4 +1,4 @@
-﻿using Compartido.DTOs;
+﻿using FrontEnd.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVC.Models

@@ -1,5 +1,4 @@
-﻿
-namespace Compartido.DTOs
+﻿namespace FrontEnd.Models
 {
     public class UsuarioDTO
     {
@@ -7,7 +6,7 @@ namespace Compartido.DTOs
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string CI { get; set; }
-        public Email Email { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string Rol { get; set; }
 

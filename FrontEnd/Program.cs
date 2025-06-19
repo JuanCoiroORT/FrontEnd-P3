@@ -9,6 +9,17 @@ namespace FrontEnd
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // HttpClient para consumir la API
+            builder.Services.AddHttpClient();
+
+            // Agregamos soporte para sesiones
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -23,6 +34,9 @@ namespace FrontEnd
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Agregamos uso de sesión antes de autorización
+            app.UseSession();
 
             app.UseAuthorization();
 

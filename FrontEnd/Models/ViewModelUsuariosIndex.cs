@@ -1,4 +1,4 @@
-﻿using Compartido.DTOs;
+﻿using FrontEnd.Models;
 
 namespace MVC.Models
 {
