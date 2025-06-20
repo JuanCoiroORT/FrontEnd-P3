@@ -7,13 +7,14 @@ namespace MVC.Controllers
     public class EnviosController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7280/";
+        private readonly string _baseUrl = "http://localhost:5209/";
         public EnviosController(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
         //Vista para buscar por numTracking
+        [HttpGet]
         public IActionResult Buscar()
         {
             return View();
@@ -22,14 +23,16 @@ namespace MVC.Controllers
 
         //Accion que llama al endpoint
         [HttpGet]
-        public async Task<IActionResult> BuscarEnvio(double numTracking)
+        public async Task<IActionResult> BuscarEnvio(string numTracking)
         {
-            if (numTracking <= 0)
+            Console.WriteLine($"Tracking recibido: {numTracking}");
+            if (string.IsNullOrWhiteSpace(numTracking))
             {
-                ViewBag.Msg = "Debe ingresar un numero de tracking valido.";
+                ViewBag.Msg = "Debe ingresar un número de tracking válido.";
+                return View("Buscar");
             }
 
-            var response = await _httpClient.GetAsync($"{_baseUrl}/Envios/{numTracking}");
+            var response = await _httpClient.GetAsync($"{_baseUrl}Envios/{numTracking}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -45,7 +48,7 @@ namespace MVC.Controllers
                 ViewBag.Msg = "Ocurrio un error al consultar el envio";
             }
 
-            return View();
+            return View("Buscar");
         }
     }
 }

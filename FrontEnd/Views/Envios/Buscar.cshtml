@@ -11,7 +11,7 @@
     </div>
 }
 
-<form asp-action="Buscar" method="get">
-    <input type="number" name="numTracking" placeholder="Número de tracking" />
+<form asp-controller="Envios" asp-action="BuscarEnvio" method="get">
+    <input type="text" name="numTracking" placeholder="Número de tracking" />
     <button type="submit">Buscar</button>
 </form>

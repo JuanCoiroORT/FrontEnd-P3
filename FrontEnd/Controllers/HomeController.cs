@@ -7,7 +7,7 @@ namespace FrontEnd.Controllers
     public class HomeController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7280/";
+        private readonly string _baseUrl = "http://localhost:5209/";
         public HomeController(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -28,7 +28,7 @@ namespace FrontEnd.Controllers
                 Password = password
             };
 
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/Home/Login", loginDTO);
+            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}Auth/Login", loginDTO);
 
             if (response.IsSuccessStatusCode)
             {
@@ -38,8 +38,6 @@ namespace FrontEnd.Controllers
                 HttpContext.Session.SetString("Token", result.Token);
                 HttpContext.Session.SetString("Email", result.Email);
                 HttpContext.Session.SetString("Nombre", result.Nombre);
-                HttpContext.Session.SetString("RolLogueado", "Cliente"); // si no viene del API
-
                 return RedirectToAction("Index");
             }
 
