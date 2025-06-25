@@ -1,0 +1,42 @@
+﻿@model List<EnvioDTO>;
+
+<h2>Buscar envios por comentario</h2>
+
+@if (ViewBag.Msg != null)
+{
+    <p class="text-danger">@ViewBag.Msg</p>
+}
+
+<form asp-action="BuscarPorComentario" method="post">
+    <div class="form-group">
+        <label>Palabra clave:</label>
+        <input name="comentario" class="form-control" />
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Buscar</button>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <h3>Resultados:</h3>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Tracking</th>
+                <th>Estado</th>
+                <th>Fecha Creación</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var envio in Model)
+            {
+                <tr>
+                    <td>@envio.NumTracking</td>
+                    <td>@envio.Estado</td>
+                    <td>@envio.FechaCreacion.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

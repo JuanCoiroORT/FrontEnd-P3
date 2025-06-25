@@ -150,5 +150,44 @@ namespace MVC.Controllers
 
             return View("ListaFiltrada", envios);
         }
+
+        [HttpGet]
+        public IActionResult BuscarPorComentario()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BuscarPorComentario(string comentario)
+        {
+            var token = HttpContext.Session.GetString("Token");
+            var idUsuario = HttpContext.Session.GetInt32("idUsuario");
+
+            if (string.IsNullOrEmpty(token) || idUsuario == null)
+            {
+                // Redirigir a Login si no hay token o id
+                return RedirectToAction("Login", "Home");
+            }
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var content = new StringContent($"\"{comentario}\"", System.Text.Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"{_baseUrl}envios/cliente/{idUsuario}/buscarPorComentario", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                ViewBag.Msg = "No se encontraron resultados o hubo un error.";
+                return View();
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var lista = JsonSerializer.Deserialize<List<EnvioDTO>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return View(lista);
+        }
     }
 }
