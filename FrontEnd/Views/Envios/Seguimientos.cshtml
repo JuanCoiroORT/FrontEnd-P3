@@ -1,25 +1,25 @@
-﻿@model List<SeguimientoDTO>;
+﻿@model List<SeguimientoDTO>
 
-<h2>Seguimientos</h2>
+<div class="container mt-5 bg-dark text-light p-4 rounded shadow-lg">
+    <h2 class="mb-4 text-center">Seguimientos</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Comentario</th>
-            <th>Fecha</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var s in Model)
-        {
+    <table class="table table-dark table-hover table-bordered">
+        <thead class="thead-light">
             <tr>
-                <td>@s.Id</td>
-                <td>@s.Comentario</td>
-                <td>@s.Fecha</td>
+                <th>Id</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
             </tr>
-        }
-    </tbody>
-
-
-</table>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.Id</td>
+                    <td>@s.Comentario</td>
+                    <td>@s.Fecha.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

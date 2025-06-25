@@ -1,30 +1,37 @@
 ﻿@using Compartido.DTOs
-@model FiltroEnvioDTO;
+@model FiltroEnvioDTO
 
-<h2>Filtrar Envios</h2>
+<div class="container mt-5 bg-dark text-light p-4 rounded shadow-lg">
+    <h2 class="mb-4 text-center">Filtrar Envíos</h2>
 
-@if (ViewBag.Msg != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.Msg
-    </div>
-}
+    @if (ViewBag.Msg != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Msg
+        </div>
+    }
 
-<form asp-action="Filtrar" method="post">
-    <div>
-        <label>Fecha Inicio:</label>
-        <input asp-for="FechaInicio" type="date" required/>
-    </div>
-    <div>
-        <label>Fecha Fin:</label>
-        <input asp-for="FechaFin" type="date" required/>
-    </div>
-    <div>
-        <label>Estado:</label>
-        <select asp-for="Estado" required>
-            <option value="EN_PROCESO">EN_PROCESO</option>
-            <option value="FINALIZADO">FINALIZADO</option>
-        </select>
-    </div>
-    <button type="submit">Buscar</button>
-</form>
+    <form asp-action="Filtrar" method="post">
+        <div class="form-group mb-3">
+            <label for="FechaInicio">Fecha Inicio:</label>
+            <input asp-for="FechaInicio" class="form-control bg-secondary text-light" type="date" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="FechaFin">Fecha Fin:</label>
+            <input asp-for="FechaFin" class="form-control bg-secondary text-light" type="date" required />
+        </div>
+
+        <div class="form-group mb-4">
+            <label for="Estado">Estado:</label>
+            <select asp-for="Estado" class="form-control bg-secondary text-light" required>
+                <option value="EN_PROCESO">EN_PROCESO</option>
+                <option value="FINALIZADO">FINALIZADO</option>
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-light">Buscar</button>
+        </div>
+    </form>
+</div>

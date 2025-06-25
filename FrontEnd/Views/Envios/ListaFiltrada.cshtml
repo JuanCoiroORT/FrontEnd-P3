@@ -1,33 +1,36 @@
-﻿@model List<EnvioDTO>;
+﻿@model List<EnvioDTO>
 
+<div class="container mt-5 bg-dark text-light p-4 rounded shadow-lg">
+    <h2 class="mb-4 text-center">Mis Envíos</h2>
 
-<h2>Envios</h2>
-
-@if (!Model.Any())
-{
-    <p>No se encontraron envíos.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Tracking</th>
-                <th>Estado</th>
-                <th>Peso</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var envio in Model)
-            {
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center">
+            No se encontraron envíos.
+        </div>
+    }
+    else
+    {
+        <table class="table table-dark table-hover table-bordered">
+            <thead class="thead-light">
                 <tr>
-                    <td>@envio.NumTracking</td>
-                    <td>@envio.Estado</td>
-                    <td>@envio.Peso</td>
-                    <td>@envio.FechaCreacion.ToShortDateString()</td>
+                    <th>Tracking</th>
+                    <th>Estado</th>
+                    <th>Peso (kg)</th>
+                    <th>Fecha</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var envio in Model)
+                {
+                    <tr>
+                        <td>@envio.NumTracking</td>
+                        <td>@envio.Estado</td>
+                        <td>@envio.Peso</td>
+                        <td>@envio.FechaCreacion.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

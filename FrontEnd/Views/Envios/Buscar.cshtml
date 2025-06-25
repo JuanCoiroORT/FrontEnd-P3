@@ -2,16 +2,20 @@
     ViewData["Title"] = "Buscar Envío";
 }
 
-<h2>Buscar Envío por numero de tracking</h2>
+<div class="container mt-5 bg-dark text-light p-4 rounded shadow-lg">
+    <h2 class="mb-4 text-center">Buscar Envío por Número de Tracking</h2>
 
-@if (ViewBag.Msg != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.Msg
-    </div>
-}
+    @if (ViewBag.Msg != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Msg
+        </div>
+    }
 
-<form asp-controller="Envios" asp-action="BuscarEnvio" method="get">
-    <input type="text" name="numTracking" placeholder="Número de tracking" />
-    <button type="submit">Buscar</button>
-</form>
+    <form asp-controller="Envios" asp-action="BuscarEnvio" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="numTracking" class="form-control bg-secondary text-light" placeholder="Número de tracking" required />
+            <button type="submit" class="btn btn-outline-light">Buscar</button>
+        </div>
+    </form>
+</div>

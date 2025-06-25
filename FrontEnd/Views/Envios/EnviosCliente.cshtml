@@ -1,31 +1,38 @@
-﻿@model List<EnvioDTO>;
+﻿@model List<EnvioDTO>
 
-<h2>Mis Envios</h2>
+<div class="container mt-5 bg-dark text-light p-4 rounded shadow-lg">
+    <h2 class="mb-4 text-center">Mis Envíos</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Peso</th>
-            <th>Estado</th>
-            <th>Numero de Tracking</th>
-            <th>Seguimientos</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var envio in Model)
-        {
-        <tr>
-            <td>@envio.Id</td>
-            <td>@envio.Peso</td>
-            <td>@envio.Estado</td>
-            <td>@envio.NumTracking</td>
-            <td>
-                <a asp-action="Seguimientos" asp-route-id="@envio.Id" class="btn btn-info">Seguimientos</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-
-
-</table>
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center">No se encontraron envíos.</div>
+    }
+    else
+    {
+        <table class="table table-dark table-hover table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Peso</th>
+                    <th>Estado</th>
+                    <th>Número de Tracking</th>
+                    <th>Seguimientos</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var envio in Model)
+                {
+                    <tr>
+                        <td>@envio.Id</td>
+                        <td>@envio.Peso</td>
+                        <td>@envio.Estado</td>
+                        <td>@envio.NumTracking</td>
+                        <td>
+                            <a asp-action="Seguimientos" asp-route-id="@envio.Id" class="btn btn-outline-info btn-sm">Ver</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
