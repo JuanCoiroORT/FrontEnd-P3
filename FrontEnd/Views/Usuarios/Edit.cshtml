@@ -1,0 +1,20 @@
+﻿@model UsuarioDTO;
+
+<h2>Cambiar Password</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div>@ViewBag.Message</div>
+}
+<form asp-controller="Usuarios" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Nueva Password</label>
+        <input type="password" asp-for="Password" />
+    </div>
+
+    <button type="submit">Cambiar contraseña</button>
+</form>
+
+

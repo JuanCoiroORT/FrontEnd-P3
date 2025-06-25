@@ -1,0 +1,31 @@
+﻿@model List<EnvioDTO>;
+
+<h2>Mis Envios</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Peso</th>
+            <th>Estado</th>
+            <th>Numero de Tracking</th>
+            <th>Seguimientos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var envio in Model)
+        {
+        <tr>
+            <td>@envio.Id</td>
+            <td>@envio.Peso</td>
+            <td>@envio.Estado</td>
+            <td>@envio.NumTracking</td>
+            <td>
+                <a asp-action="Seguimientos" asp-route-id="@envio.Id" class="btn btn-info">Seguimientos</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+
+</table>

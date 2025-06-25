@@ -1,0 +1,33 @@
+﻿@model List<EnvioDTO>;
+
+
+<h2>Envios</h2>
+
+@if (!Model.Any())
+{
+    <p>No se encontraron envíos.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tracking</th>
+                <th>Estado</th>
+                <th>Peso</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var envio in Model)
+            {
+                <tr>
+                    <td>@envio.NumTracking</td>
+                    <td>@envio.Estado</td>
+                    <td>@envio.Peso</td>
+                    <td>@envio.FechaCreacion.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

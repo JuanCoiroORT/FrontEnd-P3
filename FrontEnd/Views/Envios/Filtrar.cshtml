@@ -1,0 +1,30 @@
+﻿@using Compartido.DTOs
+@model FiltroEnvioDTO;
+
+<h2>Filtrar Envios</h2>
+
+@if (ViewBag.Msg != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Msg
+    </div>
+}
+
+<form asp-action="Filtrar" method="post">
+    <div>
+        <label>Fecha Inicio:</label>
+        <input asp-for="FechaInicio" type="date" required/>
+    </div>
+    <div>
+        <label>Fecha Fin:</label>
+        <input asp-for="FechaFin" type="date" required/>
+    </div>
+    <div>
+        <label>Estado:</label>
+        <select asp-for="Estado" required>
+            <option value="EN_PROCESO">EN_PROCESO</option>
+            <option value="FINALIZADO">FINALIZADO</option>
+        </select>
+    </div>
+    <button type="submit">Buscar</button>
+</form>

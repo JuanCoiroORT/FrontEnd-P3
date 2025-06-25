@@ -10,9 +10,13 @@ namespace FrontEnd
             builder.Services.AddControllersWithViews();
 
             // HttpClient para consumir la API
-            builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient("API", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5209/");
+            });
 
             // Agregamos soporte para sesiones
+            builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

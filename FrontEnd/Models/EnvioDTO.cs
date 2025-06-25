@@ -13,7 +13,8 @@ namespace FrontEnd.Models
         public string Estado { get; set; }
         public int EmpleadoId { get; set; }
         public int ClienteId { get; set; }
-        public double NumTracking { get; set; }
+        public string NumTracking { get; set; }
+        public DateTime FechaCreacion { get; set; }
 
         public EnvioDTO() { }
     }

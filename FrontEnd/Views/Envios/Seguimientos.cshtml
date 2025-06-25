@@ -1,0 +1,25 @@
+﻿@model List<SeguimientoDTO>;
+
+<h2>Seguimientos</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Comentario</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.Comentario</td>
+                <td>@s.Fecha</td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>

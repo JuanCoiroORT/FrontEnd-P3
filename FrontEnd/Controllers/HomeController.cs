@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Text.Json;
 using FrontEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +10,9 @@ namespace FrontEnd.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl = "http://localhost:5209/";
-        public HomeController(HttpClient httpClient)
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("API");
         }
 
         [HttpGet]
@@ -20,30 +22,31 @@ namespace FrontEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
-        {
-            var loginDTO = new LoginDTO
-            {
-                Email = email,
-                Password = password
-            };
+         public async Task<IActionResult> Login(string email, string password)
+         {
+             var loginDTO = new LoginDTO
+             {
+                 Email = email,
+                 Password = password
+             };
 
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}Auth/Login", loginDTO);
+             var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}Auth/Login", loginDTO);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadFromJsonAsync<LoginResultDTO>();
+             if (response.IsSuccessStatusCode)
+             {
+                 var result = await response.Content.ReadFromJsonAsync<LoginResultDTO>();
 
-                // Guardar token y datos en sesión
-                HttpContext.Session.SetString("Token", result.Token);
-                HttpContext.Session.SetString("Email", result.Email);
-                HttpContext.Session.SetString("Nombre", result.Nombre);
-                return RedirectToAction("Index");
-            }
+                 // Guardar token y datos en sesión
+                 HttpContext.Session.SetString("Token", result.Token);
+                 HttpContext.Session.SetInt32("idUsuario", result.Id);
 
-            ViewBag.Message = "Credenciales incorrectas";
-            return View();
-        }
+                 return RedirectToAction("Index");
+             }
+
+             ViewBag.Message = "Credenciales incorrectas";
+             return View();
+         }
+
 
         public IActionResult Logout()
         {
