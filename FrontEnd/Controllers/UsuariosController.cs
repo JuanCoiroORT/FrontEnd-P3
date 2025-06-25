@@ -5,53 +5,26 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using Compartido.DTOs;
+using System.Reflection;
 namespace MVC.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "http://localhost:5209/";
         public UsuariosController(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("API");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public IActionResult CambiarPassword()
         {
-
-            var token = HttpContext.Session.GetString("Token");
-            var id = HttpContext.Session.GetInt32("idUsuario");
-
-
-
-            if (string.IsNullOrEmpty(token) || id == null)
-            {
-                // Redirigir a Login si no hay token o id
-                return RedirectToAction("Login", "Home");
-            }
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var response = await _httpClient.GetAsync($"usuarios/{id}");
-
-            var body = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                ViewBag.Message = $"Error al obtener usuario: {response.StatusCode} - {body} {id} {token}";
-                return View("Edit", new UsuarioDTO());
-            }
-
-            var usuarioDTO = JsonSerializer.Deserialize<UsuarioDTO>(body, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return View(usuarioDTO);
+            return View(new CambioPasswordDTO());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UsuarioDTO dto)
+        public async Task<IActionResult> CambiarPassword(CambioPasswordDTO dto)
         {
             var token = HttpContext.Session.GetString("Token");
             var id = HttpContext.Session.GetInt32("idUsuario");
@@ -62,47 +35,25 @@ namespace MVC.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            dto.Id = id.Value;
+
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            //Trear el usuario actual
-            var getResponse = await _httpClient.GetAsync($"usuarios/{id}");
-            if (!getResponse.IsSuccessStatusCode)
-            {
-                ViewBag.Message = "No se pudo obtener el usuario.";
-                return View(dto);
-            }
+            var json = JsonSerializer.Serialize(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var response = await _httpClient.PostAsync("usuarios/cambiarPassword", content);
 
-
-            var json = await getResponse.Content.ReadAsStringAsync();
-            var usuarioActual = JsonSerializer.Deserialize<UsuarioDTO>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-
-            // Rellenar los campos obligatorios
-            dto.Id = usuarioActual.Id;
-            dto.Nombre = usuarioActual.Nombre;
-            dto.Apellido = usuarioActual.Apellido;
-            dto.Email = usuarioActual.Email;
-            dto.CI = usuarioActual.CI;
-            dto.Rol = usuarioActual.Rol;
-
-            var putContent = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
-            var putResponse = await _httpClient.PutAsync($"{_baseUrl}usuarios/{id}", putContent);
-
-            if (putResponse.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 ViewBag.Mensaje = "Contraseña cambiada correctamente.";
+                return View(new CambioPasswordDTO()); // Limpio el formulario
             }
             else
             {
-                var error = await putResponse.Content.ReadAsStringAsync();
-                ViewBag.Mensaje = $"Error: {error}";
+                ViewBag.Mensaje = "Password actual incorrecta.";
+                return View(dto);
             }
-
-            return View(dto);
         }
 
     }

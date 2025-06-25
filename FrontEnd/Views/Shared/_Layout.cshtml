@@ -27,27 +27,33 @@
                         </li>
                         @{
                             var estaLogueado = Context.Session.GetString("Token") != null;
+                            var rol = Context.Session.GetString("Rol");
+                            var esCliente = rol == "Cliente";
                         }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
                         </li>
                         @if (estaLogueado)
                         {
+                            @if (esCliente)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="CambiarPassword">Cambiar Password</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Envios" asp-action="EnviosCliente">Mis Envios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Envios" asp-action="Filtrar">Filtrar Envios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Envios" asp-action="BuscarPorComentario">Buscar por Comentario</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Edit">Cambiar Password</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Envios" asp-action="EnviosCliente">Mis Envios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Envios" asp-action="Filtrar">Filtrar Envios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Envios" asp-action="BuscarPorComentario">Buscar por Comentario</a>
-                            </li>
+                           
                         }
 
                         <li class="nav-item">

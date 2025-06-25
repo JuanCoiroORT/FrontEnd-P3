@@ -12,7 +12,8 @@ namespace FrontEnd
             // HttpClient para consumir la API
             builder.Services.AddHttpClient("API", client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5209/");
+                var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+                client.BaseAddress = new Uri(baseUrl);
             });
 
             // Agregamos soporte para sesiones

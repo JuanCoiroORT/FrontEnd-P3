@@ -11,7 +11,6 @@ namespace MVC.Controllers
     public class EnviosController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "http://localhost:5209/";
         public EnviosController(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("API");
@@ -35,7 +34,7 @@ namespace MVC.Controllers
                 return View("Buscar");
             }
 
-            var response = await _httpClient.GetAsync($"{_baseUrl}Envios/{numTracking}");
+            var response = await _httpClient.GetAsync($"Envios/{numTracking}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -134,7 +133,7 @@ namespace MVC.Controllers
 
             var content = new StringContent(JsonSerializer.Serialize(filtro), System.Text.Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{_baseUrl}envios/filtrar", content);
+            var response = await _httpClient.PostAsync("envios/filtrar", content);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -173,7 +172,7 @@ namespace MVC.Controllers
 
             var content = new StringContent($"\"{comentario}\"", System.Text.Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{_baseUrl}envios/cliente/{idUsuario}/buscarPorComentario", content);
+            var response = await _httpClient.PostAsync($"envios/cliente/{idUsuario}/buscarPorComentario", content);
 
             if (!response.IsSuccessStatusCode)
             {

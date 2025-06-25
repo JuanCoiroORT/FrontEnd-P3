@@ -9,7 +9,6 @@ namespace FrontEnd.Controllers
     public class HomeController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "http://localhost:5209/";
         public HomeController(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("API");
@@ -30,7 +29,7 @@ namespace FrontEnd.Controllers
                  Password = password
              };
 
-             var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}Auth/Login", loginDTO);
+             var response = await _httpClient.PostAsJsonAsync("Auth/Login", loginDTO);
 
              if (response.IsSuccessStatusCode)
              {
@@ -39,8 +38,9 @@ namespace FrontEnd.Controllers
                  // Guardar token y datos en sesión
                  HttpContext.Session.SetString("Token", result.Token);
                  HttpContext.Session.SetInt32("idUsuario", result.Id);
+                HttpContext.Session.SetString("Rol", result.Rol);
 
-                 return RedirectToAction("Index");
+                return RedirectToAction("Index");
              }
 
              ViewBag.Message = "Credenciales incorrectas";
